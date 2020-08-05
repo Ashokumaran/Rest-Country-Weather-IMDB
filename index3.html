@@ -50,7 +50,7 @@
             displayResults= document.getElementById('results');
             displayResults.innerHTML = "";
             var myAPI = 'f7de4d2f';
-            var url = `http://www.omdbapi.com/?i=tt3896198&apikey=${myAPI}&t=${search}`;
+            var url = `https://www.omdbapi.com/?i=tt3896198&apikey=${myAPI}&t=${search}`;
             var value = await fetch(url);
             var input = await value.json();
             search = search.toUpperCase();  
