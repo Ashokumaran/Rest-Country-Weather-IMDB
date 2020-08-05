@@ -47,15 +47,13 @@
             var displayResults;
             var search;
             search = document.getElementById('movieName').value;
-            search = search.toUpperCase();  
             displayResults= document.getElementById('results');
             displayResults.innerHTML = "";
             var myAPI = 'f7de4d2f';
             var url = `http://www.omdbapi.com/?i=tt3896198&apikey=${myAPI}&t=${search}`;
             var value = await fetch(url);
             var input = await value.json();
-            console.log(input)
-            console.log(input.Title,input.Genre)
+            search = search.toUpperCase();  
             var division = document.createElement('div');
             results.setAttribute('class','searchDivision');
              let printArea = `
@@ -87,7 +85,7 @@
                 displayResults.appendChild(division);
           }
           catch{
-            console.log(false);
+           alert(`Unable to find movie with ${search}`);
           }
         }
     </script>
