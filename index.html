@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@500;700&family=Work+Sans:wght@900&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <title>Rest Countries & Open Weather (fetch)</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Promises</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Rest Countries & Open Weather (fetch)</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="index2.html">Rest Countries & Open Weather (Async / Await)</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="index3.html">IMDB API (Async / Await)</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    <div class = 'container'>
+        <h1 class = 'mt-3'>Rest Countries</h1>
+        <div id = 'fetchCountryData'></div>
+    </div>
+    <script>
+        var countryData = document.getElementById('fetchCountryData');
+        var url = 'https://restcountries.eu/rest/v2/all';
+        fetch(url)
+        .then((value) => value.json())
+        .then((result) => countryPanel(result))
+        .catch((error) => error)
+        function countryPanel(input){
+            let row = document.createElement('div');
+            row.className = 'row mt-3';
+            for(var i=0; i<input.length; i++)
+            {
+                var col = document.createElement('div');
+                col.className = 'col col-sm-2 col-md-4 col-lg-3 col-xl-3 mt-3';
+                printArea = `<div class = 'card cardHeight'>
+                    <div class = 'card-header'>${input[i].name}</div>
+                    <img src = '${input[i].flag}' class = 'card-img-top' id = 'image'>
+                    <div class = 'card-body'>
+                        <p class = 'card-text'>
+                            <strong>Capital: </strong><span class = 'badge badge-success'>${input[i].capital}</span><br>
+                            <strong>Code: </strong><span>${input[i].alpha2Code}, ${input[i].alpha3Code}</span><br>
+                            <strong>Region: </strong><span>${input[i].region}</span>
+                        </p>
+                    </div>
+                    <div class = 'card-footer text-center'>
+                        <button class = 'btn btn-dark' onclick = "displayWeather('${input[i].name}')">Current Weather</button>
+                    </div>
+                    </div>
+                </div>`;
+                col.innerHTML = printArea;
+                row.appendChild(col);
+                countryData.appendChild(row);
+            }
+        }
+        function displayWeather(data){
+            var myAPIKey = `7c866a5e5ca7bf6262d082f85833dd14`;
+            var weatherURL = `https://api.openweathermap.org/data/2.5/weather?q=${data}&units=metric&appid=${myAPIKey}`;
+            fetch(weatherURL)
+            .then((value) => value.json())
+            .then((result) => alert('The current Temperature in ' + result.name + " is: " + result.main.temp + " degree(in celsius)"))
+            .catch((error) => alert('Oops! Unable to find the temperature'))
+        }
+    </script>
+</body>
+</html>
